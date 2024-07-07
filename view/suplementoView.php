@@ -6,15 +6,7 @@
     <title>Lista de Suplementos</title>
     <!-- Link para o CSS do Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .card {
-            margin-bottom: 20px;
-        }
-        .card img {
-            max-height: 200px;
-            object-fit: cover;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
