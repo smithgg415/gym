@@ -33,6 +33,9 @@
             <p><i class="bi bi-whatsapp"> </i>(18) 98197-1147</p>
         </div>
         <div class="footer"></div>
+
+
+        
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script>

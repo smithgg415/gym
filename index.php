@@ -1,5 +1,2 @@
 <?php
-require "./controller/suplementoController.php";
-
-$suplemento = new SuplementoController();
-$suplemento->index();
+header("Location: ./view/index.php");
