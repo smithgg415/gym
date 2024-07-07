@@ -1,72 +1,43 @@
 <?php
-require_once './model/funcionarioModel.php';
+class FuncionarioController {
+    private $funcionarioModel;
 
-class FuncionarioController{
-    private $funcionario;
+    public function __construct($pdo){
+        $this->funcionarioModel = new SuplementoModel($pdo);
+    }
 
-    public function __construct(){
-        require './bd/conexao.php';
-        $this->funcionarios = new FuncionarioModel($pdo);
-    }
-    public function index(){
-        $funcionarios = $this->funcionario->getAllFuncionario();
-        include 'funcionarioView.php';
-    }
-    public function add(){
+    public function register(){
         if($_SERVER['REQUEST_METHOD'] == "POST"){
-            $this->funcionario->fun_nome = $_POST["fun_nome"];
-            $this->funcionario->fun_senha = $_POST["fun_senha"];
+            $fun_nome = $_POST["fun_nome"];
+            $fun_senha = $_POST["fun_senha"];
+            if($this->funcionarioModel->addFuncionario($fun_nome, $fun_senha)){
+                header("Location: login.php");
+            } else {
+                echo "Erro ao criar a conta.";
+            }
+        }
+    }
 
-            if($this->funcionario->addFuncionarios()){
-                header("Location: ../view/indexFuncionario.php");
-            }
-            else{
-                echo "erro ao adicionar o funcionario na base de dados.";
-            }
-        }
-    }
-    public function edit(){
+    public function login(){
         if($_SERVER['REQUEST_METHOD'] == "POST"){
-            $this->funcionario->fun_id = $_POST["fun_id"];
-            $this->funcionario->fun_nome = $_POST["fun_nome"];
-            $this->funcionario->fun_senha = $_POST["fun_senha"];
-            if($this->funcionario->updateFuncionarios()){
-                header("Location: ../view/indexFuncionario.php");
-            }
-            else{
-                echo "erro em atualizar o funcionario na base de dados.";
-            }
-        }
-    }
-    public function excluir(){
-        if($_SERVER['REQUEST_METHOD'] == "POST"){
-            $this->funcionario->fun_id = $_POST["fun_id"];
-            if($this->funcionario->deleteFuncionarios()){
-                header("Location: ../view/indexFuncionario.php");
-            }
-            else{
-                echo "erro na exclusão do funcionario na base de dados.";
+            $fun_nome = $_POST["fun_nome"];
+            $fun_senha = $_POST["fun_senha"];
+            $funcionario = $this->funcionarioModel->getFuncionarioByNome($fun_nome);
+            if($funcionario && password_verify($fun_senha, $funcionario['fun_senha'])){
+                session_start();
+                $_SESSION['fun_id'] = $funcionario['fun_id'];
+                $_SESSION['fun_nome'] = $funcionario['fun_nome'];
+                header("Location: index.php");
+            } else {
+                echo "Nome de usuário ou senha incorretos.";
             }
         }
     }
-    public function buscarUm($id){
-        $funcionarios = $this->funcionario->getFuncionarioByid($id);
-        return $funcionarios;
-    }
-}
-if($_SERVER['REQUEST_METHOD'] == "POST"){
-    $controller = new FuncionarioController();
-    if($_POST["acao"] == "incluir"){
-        $controller->add();
-    }
-    else{
-        if($_POST["acao"] == "editar"){
-            $controller->edit();
-        }
-        else{
-            if($_POST["acao"] == "excluir"){
-                $controller->excluir();
-            }
-        }
+
+    public function logout(){
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location: login.php");
     }
 }

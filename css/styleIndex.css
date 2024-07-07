@@ -35,7 +35,7 @@ p {
     text-decoration: none;
     display: inline-block;
     transition: background-color 0.3s;
-    width:250px;
+    width: 250px;
 }
 .btn-custom:hover {
     background-color: #2ecc71;
@@ -45,7 +45,6 @@ p {
     background-color: rgba(0, 0, 0, 0.8);
     margin-top: 15px;
     text-align: center;
-    
 }
 .footer p {
     margin: 0;
